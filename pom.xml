@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.nem.xpx.messenger</groupId>
+  <artifactId>messenger</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>messenger</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.nem.xpx</groupId>
+      <artifactId>xpx-java-sdk</artifactId>
+      <version>0.1.0-beta.6</version>
+    </dependency>
+
+	<!-- https://mvnrepository.com/artifact/com.restfb/restfb -->
+	<dependency>
+	    <groupId>com.restfb</groupId>
+	    <artifactId>restfb</artifactId>
+	    <version>2.7.0</version>
+	</dependency>
+	
+	<dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-server</artifactId>
+        <version>9.3.6.v20151106</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>9.3.6.v20151106</version>
+	</dependency>
+		
+  </dependencies>
+</project>
