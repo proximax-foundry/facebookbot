@@ -52,32 +52,12 @@ public class BotServlet extends AbstractFacebookBotServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String body = req.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
 
-        JsonMapper mapper = new DefaultJsonMapper();
-        WebhookObject whObject = mapper.toJavaObject(body, WebhookObject.class);
-
-        /*
-         * Looks for text message and uploads it to ProximaX
-         */
-        for (final WebhookEntry entry : whObject.getEntryList()) {
-            for (final MessagingItem item : entry.getMessaging()) {
-                if (item.isMessage()) {
-                    final String msg = item.getMessage().getText();
-                    final String sid = item.getMessage().getStickerId();
-
-                    if (sid != null) {
-                        System.out.println("Sticker: '" + sid + "'");
-                    }
-                    if (msg != null) {
-                        System.out.println("Msg: '" + msg + "'");
-
-                        try { 
-                            upload(msg); 
-                        } catch (UploadException e) { 
-                            e.printStackTrace(); 
-                        }
-                    }
-                }
-            }
+        System.out.println(body);
+        
+        try { 
+            upload(body); 
+        } catch (UploadException e) { 
+            e.printStackTrace(); 
         }
     }
 }
