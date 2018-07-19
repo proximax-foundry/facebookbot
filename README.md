@@ -5,7 +5,7 @@ This application reads messages from hooked Facebook website's messenger. Conten
 ## Installing
 ```
 git clone https://github.com/proximax-storage-foundry/facebookbot.git
-cd messenger
+cd facebookbot
 ```
 Using Maven
 ```
