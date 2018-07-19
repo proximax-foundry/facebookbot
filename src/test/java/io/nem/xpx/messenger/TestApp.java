@@ -5,21 +5,20 @@ import org.junit.After;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
-public class TestApp { 
+public class TestApp {
 
-	@Before
-	public void setUp() {
-	}
+    @Before
+    public void setUp() {
+    }
 
-	@Test
+    @Test
     public void testApp() {
-		assertEquals(true, true);	
-		
-	}
+        //assertEquals(1, 1);
+    }
 
-	@After
-	public void cleanup() {
-		
-	}
-    
+    @After
+    public void cleanup() {
+
+    }
+
 }
