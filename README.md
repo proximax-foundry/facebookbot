@@ -29,7 +29,7 @@ SERVER_HTTP_PORT - Port for listen to HTTP
 SERVER_HTTPS_PORT - Port for listen to HTTPS
 ```
 
-You can chose to set only one of the ports or both of them. In case of https you must provide signed SSL/TLS certificate in pkcs12 format. If no port is set, the app will exit immediately.
+You can chose to set just one of the ports or both of them. In case of https you must provide signed SSL/TLS certificate in pkcs12 format. If no port is set, the app will exit immediately.
 
 ## Running
 App starts a webserver on configured ports. 
@@ -38,7 +38,8 @@ App starts a webserver on configured ports.
 java -jar target/jars/messenger-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 ## Useful links
-You can follow this guide to start with Facebook messenger webhooks https://x-team.com/blog/how-to-get-started-with-facebook-messenger-bots/
+You can follow this guide to start with Facebook messenger webhooks  
+https://x-team.com/blog/how-to-get-started-with-facebook-messenger-bots/
 
-Application is using RestFB library for Facebook API
+Application is using RestFB library for Facebook API  
 https://restfb.com/documentation/
