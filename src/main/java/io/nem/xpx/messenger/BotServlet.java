@@ -4,6 +4,9 @@ import com.restfb.*;
 import com.restfb.types.webhook.WebhookEntry;
 import com.restfb.types.webhook.WebhookObject;
 import com.restfb.types.webhook.messaging.MessagingItem;
+import com.restfb.types.send.IdMessageRecipient;
+import com.restfb.types.send.Message;
+import com.restfb.types.GraphResponse;
 
 import io.nem.xpx.facade.connection.RemotePeerConnection;
 import io.nem.xpx.facade.upload.Upload;
@@ -31,7 +34,7 @@ public class BotServlet extends AbstractFacebookBotServlet {
      * PRIVATE_KEY - Private key of a sender account PUBLIC_KEY - Public key of a
      * receiver account
      */
-    public static void upload(String msg) throws UploadException {
+    public static String upload(String msg) throws UploadException {
 
         final Upload upload = new Upload(remotePeerConnection); // blocking
 
@@ -42,7 +45,7 @@ public class BotServlet extends AbstractFacebookBotServlet {
         final UploadResult uploadResult = upload.uploadTextData(parameter);
         String hash = uploadResult.getNemHash(); // prints the Nem Hash to download text
 
-        System.out.println("Hash: '" + hash + "'");
+        return hash;
     }
 
     /*
@@ -51,13 +54,40 @@ public class BotServlet extends AbstractFacebookBotServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String body = req.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
-
+        String hash;
+        
         System.out.println(body);
         
-        try { 
-            upload(body); 
-        } catch (UploadException e) { 
-            e.printStackTrace(); 
+        JsonMapper mapper = new DefaultJsonMapper();
+        WebhookObject whObject = mapper.toJavaObject(body, WebhookObject.class);
+
+        for (final WebhookEntry entry : whObject.getEntryList()) {
+            for (final MessagingItem item : entry.getMessaging()) {
+                final String senderId = item.getSender().getId();
+                Message simpleTextMessage = null;
+
+                if (item.getMessage() != null) {
+                    // build the recipient
+                    final IdMessageRecipient recipient = new IdMessageRecipient(senderId);
+        
+                    // send response if it is a message and not send a "echo"
+                    if (!item.getMessage().isEcho()) {
+                        try { 
+                            hash = upload(body); 
+                        } catch (UploadException e) { 
+                            e.printStackTrace();
+                            
+                            return;
+                        }
+         
+                        simpleTextMessage = new Message(System.getenv("PROXIMAX_ADDR") + "/xpxfs/" + hash);
+                        
+                        System.out.println("sending");
+                        final FacebookClient sendClient = new DefaultFacebookClient(System.getenv("ACCESS_TOKEN"), Version.VERSION_2_7);
+                        sendClient.publish("me/messages", GraphResponse.class, Parameter.with("recipient", recipient), Parameter.with("message", simpleTextMessage));
+                    }
+                }
+            }
         }
     }
 }
